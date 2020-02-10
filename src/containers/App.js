@@ -10,6 +10,8 @@ import Home from './Home';
 import Setting from './Setting';
 import Register from './Register';
 import Login from './Login';
+import ChatRoomList from './ChatRoomList';
+import ChatRoom from './ChatRoom';
 import Styles from '../styles/Style';
 import io from 'socket.io-client';
 
@@ -31,16 +33,25 @@ function App(props) {
       <Router>
         <Navigation user={user} />
         <Switch>
+          <Route exact path="/" component={Home} />
           <Route exact path="/setting" render={
-            () => (<Setting socket={socket} user={user} updateUser={setUser}/>)
+            () => (<Setting socket={socket} user={user} setUser={setUser}/>)
           } />
           <Route exact path="/login" render={
-            () => (<Login socket={socket} user={user} setUser={setUser} updateUser={setUser}/>)
+            () => (<Login socket={socket} user={user} setUser={setUser}/>)
           } />
           <Route exact path="/register" render={
-            () => (<Register socket={socket} user={user} setUser={setUser} updateUser={setUser}/>)
+            () => (<Register socket={socket} user={user} setUser={setUser}/>)
           } />
-          <Route path="/" components={Home} />
+          <Route exact path="/ChatRoomList" render={
+            () => (<ChatRoomList socket={socket} user={user} />)
+          } />
+          <Route exact path="/ChatRoom/:id" render={
+            () => (<ChatRoom socket={socket} user={user} />)
+          } />
+          <Route exact path="/ChatRoom" render={
+            () => (<ChatRoom socket={socket} user={user} />)
+          } />
         </Switch>
       </Router>
     </div>

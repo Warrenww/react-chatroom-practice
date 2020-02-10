@@ -10,6 +10,7 @@ function Register(props){
   const classes = Styles();
   const socket = props.socket,
         user = props.user;
+  var input_ref = [];
 
   const [open, setOpen] = useState(false);
   const [errorMsg, setMsg] = useState(null);
@@ -24,7 +25,8 @@ function Register(props){
       setMsg(`Please enter your
         ${userName ? "" : "user name"}
         ${(!userName && (!password1 || !password2)) ? "and" : ""}
-        ${(!password1 || !password2) ? "password" : ""}`)
+        ${(!password1 || !password2) ? "password" : ""}`);
+      return ;
     }
     if(password1 !== password2){
       setOpen(true);
@@ -33,6 +35,12 @@ function Register(props){
     }
 
     socket.emit("register", {userName, password:password1});
+  }
+
+  const handleKeyPress = (e) => {
+    if(e.key === "Enter"){
+      register();
+    }
   }
 
   useEffect(() =>{
@@ -46,6 +54,7 @@ function Register(props){
         }
       });
     }
+    input_ref.map(x => x.onkeypress = handleKeyPress);
   });
 
   return(
@@ -60,6 +69,7 @@ function Register(props){
             label="Username"
             fullWidth
             margin="normal"
+            inputRef={el => input_ref.push(el)}
             />
             <TextField
             id="password"
@@ -67,6 +77,7 @@ function Register(props){
             type="password"
             fullWidth
             margin="normal"
+            inputRef={el => input_ref.push(el)}
             />
             <TextField
             id="password-check"
@@ -74,6 +85,7 @@ function Register(props){
             type="password"
             fullWidth
             margin="normal"
+            inputRef={el => input_ref.push(el)}
             />
             <Button variant="contained" onClick={register} style={{marginTop:10}}>Register</Button>
             <Link to="/login" className={classes.link} style={{marginTop:10}}> Login </Link>

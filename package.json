@@ -28,7 +28,8 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "src/*"
+      "src/*",
+      "DB/*"
     ],
     "delay": "2500"
   },

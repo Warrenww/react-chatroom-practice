@@ -10,10 +10,11 @@ function Login(props){
   const classes = Styles();
   const socket = props.socket,
         user = props.user;
+  var input_ref = [];
 
   const [open, setOpen] = useState(false);
   const [errorMsg, setMsg] = useState(null);
-  
+
   const login = () => {
     var userName = document.getElementById("userName").value,
         password = document.getElementById("password").value;
@@ -26,6 +27,12 @@ function Login(props){
     socket.emit("fake login",{userName,password});
   }
 
+  const handleKeyPress = (e) => {
+    if(e.key === "Enter"){
+      login();
+    }
+  }
+
   useEffect(()=>{
     if(socket){
       socket.on("login",(res)=>{
@@ -36,6 +43,7 @@ function Login(props){
         }
       });
     }
+    input_ref.map(x => x.onkeypress = handleKeyPress);
   });
 
   return(
@@ -50,6 +58,7 @@ function Login(props){
             label="Username"
             fullWidth
             margin="normal"
+            inputRef={el => input_ref.push(el)}
             />
             <TextField
             id="password"
@@ -57,6 +66,7 @@ function Login(props){
             type="password"
             fullWidth
             margin="normal"
+            inputRef={el => input_ref.push(el)}
             />
             <Button variant="contained" onClick={login} style={{marginTop:10}}>Login</Button>
             <Link to="/register" className={classes.link} style={{marginTop:10}}>Register</Link>

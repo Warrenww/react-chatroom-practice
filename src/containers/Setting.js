@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import {Alert, AlertTitle} from '@material-ui/lab';
 import Styles from '../styles/Style';
 import TextField from '@material-ui/core/TextField';
-import {makeStyles} from '@material-ui/core/styles';
+import NotLogin from '../components/NotLogin';
 
 function Setting(props){
   const socket = props.socket,
@@ -10,8 +9,8 @@ function Setting(props){
 
   const classes = Styles();
 
-  const handleNameChange = (e) => { props.updateUser({name:e.target.value}); }
-  const handleAgeChange = (e) => { props.updateUser({age:e.target.value}); }
+  const handleNameChange = (e) => { props.setUser({name:e.target.value}); }
+  const handleAgeChange = (e) => { props.setUser({...user,age:e.target.value}); }
 
   return(
     <div className={classes.page}>
@@ -35,10 +34,7 @@ function Setting(props){
             onChange={handleAgeChange}
             />
           </form> :
-          <Alert severity="warning">
-            <AlertTitle>You are not login</AlertTitle>
-            Please login to set up you information.
-          </Alert>
+          <NotLogin />
         }
       </div>
     </div>

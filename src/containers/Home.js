@@ -11,11 +11,11 @@ function Home(props){
     <div className={classes.page}>
       <div className={classes.container}>
         <h1>Index</h1>
-        <p>
-          JSX is great for creating beautiful graphical page.
-          it can be used as a simple HTML element or as a component with this:
-          the time pass after you stay in this page is {timer}
-        </p>
+        <pre>
+          JSX is great for creating beautiful graphical page.{"\n"}
+          It can be used as a simple HTML element or as a component with this:{"\n"}
+          The time passed after you stay in this page is <b> {timer} </b> second.
+        </pre>
       </div>
     </div>
   )

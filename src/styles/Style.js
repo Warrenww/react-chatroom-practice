@@ -42,6 +42,7 @@ const Styles = makeStyles(() => ({
       margin:theme.spacing.sm + " auto",
       display:"flex",
       flexDirection: "column",
+      maxWidth: "90%",
     },
      form:{
       margin:"auto",

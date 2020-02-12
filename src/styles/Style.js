@@ -76,6 +76,18 @@ const Styles = makeStyles(() => ({
       color: 'inherit',
       textDecoration: 'none'
     },
+    chatroom:{
+      width: 300,
+      border: "1px solid #555",
+      height: "calc(80vh - 120px)",
+      display: "flex",
+      flexDirection: "column",
+      borderRadius: 10,
+      padding: "10px 0",
+    },
+    messageHolder:{
+      flex: 1,
+    }
 }));
 
 export default Styles;

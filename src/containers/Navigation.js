@@ -1,24 +1,33 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { Link } from "react-router-dom";
-import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
+import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+// icons
+import MenuIcon from '@material-ui/icons/Menu';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+
 import logo from '../resources/logo.svg';
 import Styles from '../styles/Style';
 
 function Navigation(props){
   const classes = Styles();
   const [state, setState] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const toggleCollapse = (event) => {
+    setOpen(!open);
+    event.stopPropagation();
+  }
   const toggleDrawer = open => event => {
       if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
         return;
@@ -33,22 +42,33 @@ function Navigation(props){
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {['CreateChatRoom', 'ChatRoom'].map((text, index) => (
-          <Link to={text} key={index} className={classes.link}>
-            <ListItem button key={text}>
-              <ListItemText primary={text} />
-            </ListItem>
-          </Link>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['Setting'].map((text, index) => (
-          <Link to={text} key={index} className={classes.link}>
-            <ListItem button key={text}>
-                <ListItemText primary={text} />
-            </ListItem>
-          </Link>
+        {['CreateChatRoom', 'ChatRoom','Setting'].map((text, index) => (
+          <div>
+            {
+              text === 'ChatRoom' ?
+              <div>
+                <ListItem button key={text} onClick={toggleCollapse}>
+                    <ListItemText primary={text} />
+                    {open ? <ExpandLess /> : <ExpandMore />}
+                </ListItem>
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    <Link to="/chatroom" className={classes.link}>
+                        <ListItem button className={classes.nested}>
+                            <ListItemText primary="public channel" />
+                        </ListItem>
+                      </Link>
+                  </List>
+                </Collapse>
+              </div> :
+              <Link to={text} key={index} className={classes.link}>
+                <ListItem button key={text}>
+                    <ListItemText primary={text} />
+                </ListItem>
+              </Link>
+            }
+            <Divider />
+          </div>
         ))}
       </List>
     </div>
@@ -62,7 +82,7 @@ function Navigation(props){
             <MenuIcon />
           </IconButton>
           <Link to="/">
-            <img src={logo}  style={{height: "60px"}}/>
+            <img src={logo} alt="logo"  style={{height: "60px"}}/>
           </Link>
           <Typography variant="h6" className={classes.Navtitle}>
             ChatRoom Example
@@ -76,7 +96,7 @@ function Navigation(props){
         </Toolbar>
       </AppBar>
       <Drawer open={state} onClose={toggleDrawer(false)}>
-        {sideList('left')}
+        {sideList()}
       </Drawer>
     </div>
   );

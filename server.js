@@ -7,9 +7,11 @@ const fs = require('fs');
 const port = process.env.PORT || 8000 ;
 server.listen(port, function(){
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+
 });
 
 var userDirectory = JSON.parse(fs.readFileSync("./DB/user.json"));
+
 var onlineUsers = [];
 const updateUser = () => {
   fs.writeFileSync("./DB/user.json",JSON.stringify(userDirectory));
@@ -45,6 +47,16 @@ io.on('connection', socket => {
       updateUser();
       socket.emit("register",{success:true,userName:data.userName});
       onlineUsers.push([data.userName, socket.id]);
+    }
+  });
+
+  socket.on("join chat", (id) => {
+    if(fs.existsSync("./DB/"+id+".json")){
+      var chatHistory = JSON.parse(fs.readFileSync("./DB/"+id+".json"));
+      socket.emit("join chat",{history: chatHistory});
+      socket.join(id);
+    } else {
+      socket.emit("join chat",{error: "Chat room not exists"});
     }
   });
 

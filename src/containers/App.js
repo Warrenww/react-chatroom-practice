@@ -12,17 +12,27 @@ import Register from './Register';
 import Login from './Login';
 import ChatRoomList from './ChatRoomList';
 import ChatRoom from './ChatRoom';
+import SlideSnackbar from '../components/Snackbar';
 import Styles from '../styles/Style';
 import io from 'socket.io-client';
 
 function App(props) {
   const [socket, setSocket] = useState(null);
   const [user, setUser] = useState(null);
+  const [snackbar, setSnackbar] = useState({
+    msg: "",
+    open: false,
+    setOpen: (open) => {setSnackbar({...snackbar, open: open})},
+    severity: "",
+  });
   const classes = Styles();
 
   useEffect(()=>{
     if(socket){
-
+      socket.on('alert',(err) => {
+        snackbar.setOpen(true);
+        setSnackbar({...snackbar, msg: err.msg});
+      });
     } else {
       setSocket(io.connect());
     }
@@ -54,6 +64,7 @@ function App(props) {
           } />
         </Switch>
       </Router>
+      <SlideSnackbar {...snackbar} />
     </div>
   );
 }

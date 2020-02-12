@@ -11,6 +11,12 @@ server.listen(port, function(){
 });
 
 var userDirectory = JSON.parse(fs.readFileSync("./DB/user.json"));
+const fakeID = (n = 16) => {
+  var s = String();
+  for (let i = 0; i < n; i++) {
+
+  }
+};
 
 var onlineUsers = [];
 const updateUser = () => {
@@ -58,6 +64,18 @@ io.on('connection', socket => {
     } else {
       socket.emit("join chat",{error: "Chat room not exists"});
     }
+  });
+
+  socket.on("message", data => {
+    if(!userDirectory[data.user]){
+      socket.emit("alert",{msg: "login to send a message"});
+      return;
+    }
+    var obj = {...data, date: new Date().getTime()},
+        history = JSON.parse(fs.readFileSync("./DB/"+data.room+".json"));
+    history.push(obj);
+    fs.writeFileSync("./DB/"+data.room+".json", JSON.stringify(history));
+    io.to(data.room).emit("message",obj);  
   });
 
   socket.on("disconnect",()=>{

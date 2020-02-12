@@ -27,6 +27,10 @@ function App(props) {
   });
   const classes = Styles();
 
+  const alert = (msg, serverity) => {
+    setSnackbar({...snackbar, msg, serverity, open: true});
+  }
+
   useEffect(()=>{
     if(socket){
       socket.on('alert',(err) => {
@@ -57,10 +61,10 @@ function App(props) {
             () => (<ChatRoomList socket={socket} user={user} />)
           } />
           <Route exact path="/ChatRoom/:id" render={
-            () => (<ChatRoom socket={socket} user={user} />)
+            () => (<ChatRoom socket={socket} alert={alert} user={user} />)
           } />
           <Route exact path="/ChatRoom" render={
-            () => (<ChatRoom socket={socket} user={user} />)
+            () => (<ChatRoom socket={socket} alert={alert} user={user} />)
           } />
         </Switch>
       </Router>

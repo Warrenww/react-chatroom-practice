@@ -87,6 +87,43 @@ const Styles = makeStyles(() => ({
     },
     messageHolder:{
       flex: 1,
+      overflowY: "scroll",
+      scrollBehavior: "smooth",
+    },
+    message:{
+      display: "flex",
+      justifyContent: "flex-start",
+      alignItems: "center",
+      padding: "5px 10px",
+      position: "relative",
+    },
+    message_my:{
+      display: "flex",
+      justifyContent: "flex-start",
+      alignItems: "center",
+      padding: "5px 10px",
+      position: "relative",
+      flexDirection: "row-reverse",
+    },
+    messageContent:{
+      borderRadius: 30,
+      background: theme.background.transparent.white,
+      minWidth: 30,
+      padding: "5px 10px",
+      maxWidth: "75%",
+      margin: 10
+    },
+    messageTime:{
+      fontSize: 12,
+      position: "absolute",
+      bottom: 0,
+      right: 10,
+    },
+    messageTime_my:{
+      fontSize: 12,
+      position: "absolute",
+      bottom: 0,
+      left: 10,
     }
 }));
 

@@ -16,9 +16,9 @@ Make the code is useable both in development and production.
 ## Implementation
 * a fake user register and login
 * a setting page render base on login state
-* a useless index page
+* an useless index page
+* a public channel chat room
 
 ## ToDo
-* chat room
-* multiple user chat rooms
-* create chat room group
+* create custom chat room
+* join and leave custom chat rooms
